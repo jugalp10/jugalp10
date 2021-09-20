@@ -1,0 +1,50 @@
+passsa=""
+length = len(passsa)
+# check the character count of the password
+symbols = list('!-$%&\'()*+,./:;<=>?_[]^`{|}~')
+numbers = list('0123456789')
+forbidden = list(' @#')
+# lists for required symbols, numbers and forbidden symbols
+i = 0
+lower = 0
+upper = 0
+invalid = 0
+symbol = 0
+number = 0
+# initialize all variables to 0
+while i < len(passsa):
+# loops through every character in the password
+      if length < 8 or passsa[i] in forbidden:
+            invalid=1
+      #check to see if the character count is less then 8 or has any forbidden text
+      #if it does, it will make invalid equal to 1
+      else :
+            caseu = passsa[i].isupper()
+            casel = passsa[i].islower()
+            if caseu == True:
+                  upper = 1
+            # check to see if the specific character is capital
+            # if there is a capital it will make upper equal to 1
+            elif casel == True:
+                  lower=1
+            # check to see if the specific character is lowercase
+            # if there is a capital it will make lower equal to 1
+            elif passsa[i] in numbers:
+                  number=1
+            # check to see if the specific character is a number
+            # if there is a capital it will make number equal to 1
+            elif passsa[i] in symbols:
+                  symbol=1
+            # check to see if the specific character is a symbol
+            # if there is a capital it will make symbol equal to 1
+      i = i+1
+      # adds 1 to i after each loop until its passes character count
+result = upper+lower+symbol+number
+if result == 4 and invalid != 1:
+      print("Secure")
+      # if all the mandatory characters are equal to 1 and there is no invalid
+elif invalid == 1:
+      print("Invalid")
+else:
+      print("Insecure")
+      # if it is neither secure or invalid then it is insecure
