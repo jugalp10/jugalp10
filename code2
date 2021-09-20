@@ -1,0 +1,42 @@
+import random
+def generate(n):
+    # subtract 4 from n and split it so that each mandatory character has one digit
+    dist = n-4
+    upperdig = 1
+    lowerdig = 1
+    numberdig = 1
+    symboldig = 1
+    uppercase = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    lowercase = list("abcdefghijklmnopqrstuvwxyz")
+    numbers = list("0123456789")
+    symbols = list("!-$%&'()*+,./:;<=>?_[]^`{|}~")
+    # lists for the neccesary characters
+    while dist>0:
+        luck = random.randint(1,4)
+        # create a loop and have it choose a random number between 1 and 4
+        if luck == 1:
+            upperdig = upperdig+1
+        # if luck lands on 1 add another digit of capital letters
+        elif luck == 2:
+            lowerdig = lowerdig+1
+        # if luck lands on 2 add another digit of lowercase letters
+        elif luck == 3:
+            numberdig = numberdig + 1
+        # if luck lands on 3 add another digit of numbers
+        elif luck == 4:
+            symboldig = symboldig + 1
+        # if luck lands on 4 add another digit of symbols
+        dist = dist-1
+        # subtract one for each loop, until the there are no more digits left to split
+    ulist = random.sample(uppercase,upperdig)
+    llist = random.sample(lowercase,lowerdig)
+    nlist = random.sample(numbers,numberdig)
+    slist = random.sample(symbols,symboldig)
+    # create a seperate list for each random character taken
+    secure = nlist+slist+ulist+llist
+    # join all the lists to make it into one list
+    random.shuffle(secure)
+    # shuffle the the list so it's randomized
+    password = ''.join(secure)
+    print(password)
+generate(30)
