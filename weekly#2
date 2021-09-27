@@ -1,0 +1,75 @@
+import random
+def biased_rolls(prob_list, s, n):
+    random.seed(s)
+    #create a new list for ranges
+    initial=prob_list[0]
+    range_list=[initial]
+    q=0
+    outcome=[]
+    while q < len(prob_list)-1:
+        #create a loop to keep adding probabilites so it adds to one
+        k=range_list[q]+prob_list[q+1]
+        range_list.append(k)
+        q=q+1
+    #first loop for the number of rolls
+    while n > 0:
+        i=random.random()
+        p=0
+        dicenum=1
+        #second loop to create a list of rolls
+        while p < len(range_list)-1:
+            #to check the if the random number was between 0 and first range
+            if 0 <= i < range_list[p]:
+                #add dicenum to a rolls list
+                outcome.append(dicenum)
+                break
+            #to check if random number lands between the other ranges
+            elif range_list[p] <= i < range_list[p+1]:
+                #add dicenum to outcome
+                #dicenum+1 because only the first if is to dicenum 1
+                outcome.append((dicenum+1))
+                break
+            #if none of the above, then to continue loop and go up one dice number
+            else:
+                p=p+1
+                dicenum=dicenum+1
+        n=n-1
+    return outcome
+
+def draw_histogram(m, rolls, width):
+    i=0
+    k=0
+    j=1
+    freq=[]
+    hashnum=[]
+    hashlst=[]
+    dashlst=[]
+    #first loop to count how many times each side is rolled
+    while j <= m:
+        count=rolls.count(j)
+        freq.append(count)
+        j=j+1
+    #second loop to get the number of hashtags needed for each side
+    while i < m:
+        high=max(freq)
+        num=round((freq[i]/high)*width)
+        #put the number of hastags for each into a list
+        hashnum.append(num)
+        i=i+1
+    #third loop is to get the drawing with hashtags and dashes
+    while k < m:
+        #create a list for hastags
+        hash=("#"*hashnum[k])
+        hashlst.append(hash)
+        #create a list for dashes
+        dashlst.append("-" * (int(width)-(hashnum[k])))
+        #put the hashtags and lists together
+        drawinglst=hashlst+dashlst
+        drawing=''.join(drawinglst)
+        #print the drawing and then repeat for each side
+        print((k+1), '.', drawing)
+        hashlst=[]
+        dashlst=[]
+        k=k+1
+rolls=biased_rolls([1/3, 1/3, 1/3], (2**32)-1, 1000)
+draw_histogram(3, rolls, 10)
