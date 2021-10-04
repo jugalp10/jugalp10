@@ -1,0 +1,72 @@
+#--------------------------------------------
+#   Name: Jugal Patel
+#   ID: Jugal2
+#   CMPUT 274
+#
+#   Weekly Exercise 3: Word Frequency
+#-------------------------------------------- 
+# FREQ TEMPLATE: ADD YOUR INFORMATION TO ABOVE
+
+# You must determine how to structure your solution.
+# Create your functions here and call them from under
+# if __name__ == "__main__"!
+
+import sys
+
+
+def freq():
+    filelst = sys.argv
+    # check length of input list
+    # will detect if there are too many or too few inputs with len()
+    if len(filelst) == 1:
+        print("Too few arguments, Usage: python3 freq.py <input_file_name>")
+        exit()
+    elif len(filelst) > 2:
+        print("Too many arguments, Usage: python3 freq.py <input_file_name>")
+        exit()
+    filename = filelst[1]
+    # opens file to read
+    fn = open(filename, "r")
+    # creates a new file to write in
+    fnout = open(filename + ".out", "w")
+    
+    dict = {}
+    # creates the read file into a list of words
+    fnlst = fn.read().split()
+    i = len(fnlst)
+    k = 0
+    # loop to detect and go through each word in the list
+    for i in fnlst:
+        # if the word already exists in the ditionary
+        # it will add one to its numerical
+        if i in dict:
+            dict[i] += 1
+            k += 1
+        # if it doesn't exist then it adds a new key and value
+        else:
+            dict[i]= 1
+            k += 1
+    # sort the dictionary
+    order = sorted(dict)
+    j = len(order)
+    # loop for each different word
+    for j in order:
+        # get and change the numerical values to strings
+        value = dict[j]
+        count = str(value)
+        # calculate frequency
+        freq=str(round(value / k, 3))
+        # create output and write in new file
+        output = [j,count,freq]
+        write = ' '.join(output)
+        fnout.write(write + "\n")
+    fn.close() 
+freq()
+
+
+if __name__ == "__main__":
+    # Any code indented under this line will only be run
+    # when the program is called directly from the terminal
+    # using "python3 freq.py". This is directly relevant to 
+    # this exercise, so you should call your code from here.
+    pass
