@@ -1,0 +1,57 @@
+#--------------------------------------------
+#   Name: 
+#   ID: 
+#   CMPUT 274
+#
+#   Weekly Exercise 3: Word Frequency
+#-------------------------------------------- 
+# FREQ TEMPLATE: ADD YOUR INFORMATION TO ABOVE
+
+# You must determine how to structure your solution.
+# Create your functions here and call them from under
+# if __name__ == "__main__"!
+
+import sys
+
+def demo_command_line():
+    print(sys.argv[0])
+    if filename == sys.argv[0]:
+        print("Too few arguments. Usage: python3 freq.py <input_file_name>")
+        exit
+    elif filename == sys.argv[1<0]:
+        print("Too many arguments. Usage: python3 freq.py <input_file_name>")
+        exit
+    filename = sys.argv[1]
+    print(filename)
+    fn=open(filename, "r")
+    fnout=open(filename+".out1", "w")
+    
+    dict={}
+    fnlst=fn.read().split()
+    i=len(fnlst)
+    k=0
+    for i in fnlst:
+        if i in dict:
+            dict[i] += 1
+            k += 1
+        else:
+            dict.update({i: 1})
+            k += 1
+    order=sorted(dict)
+    j=len(order)
+    for j in order:
+        key=dict[j]
+        count=str(key)
+        freq=str(round(key/k, 3))
+        output=[j,count,freq]
+        write=' '.join(output)
+        fnout.write(write + "\n")
+    fn.close() 
+demo_command_line()
+
+if __name__ == "__main__":
+    # Any code indented under this line will only be run
+    # when the program is called directly from the terminal
+    # using "python3 freq.py". This is directly relevant to 
+    # this exercise, so you should call your code from here.
+    pass
