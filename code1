@@ -1,3 +1,16 @@
+inputlst=input()
+intlst=inputlst.split()
+i=0
+k=0
+replst=[]
+while i < len(intlst):
+	if intlst[i] == intlst[i+1]:
+		k=k+1
+	else:
+		replst.append(k)
+		k=0
+pla=max(replst)
+print(pla)
 passsa=""
 length = len(passsa)
 # check the character count of the password
