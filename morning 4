@@ -1,0 +1,21 @@
+n, m =map(int, input().split())
+i=0
+numlst=[]
+v=0
+j=0
+anslst=[]
+while i < n:
+    numlst.append(n-i)
+    i=i+1
+while v==0:
+    num=numlst[j]
+    anslst.append(num)
+    if sum(anslst) == m:
+        v=1
+    elif sum(anslst) > m:
+        anslst.pop()
+    j=j+1
+anslst.reverse()
+out=[str(n) for n in anslst]
+print(len(anslst))
+print(' '.join(out))
