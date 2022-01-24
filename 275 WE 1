@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+bool isPrime(int n) {
+	bool x = true;
+	int i = 2;
+	float z;
+	if ( n == 0 || n == 1 ) {
+		 x = false;
+	} else {
+		while (i < n) {
+			z = n % i;
+			if (z == 0) {
+				x = false;
+				break;
+			} else {
+				++i;
+			}
+		}
+	}
+	return x;
+}
+
+void twinPrimes(int k) {
+	int i, j, x, y;
+	i = 3;
+	while (k > 0) {
+		j = i+2;
+		x = isPrime(i);
+		if (x == 0) {
+			i = i+2;
+		} else {
+			y = isPrime(j);
+			if (y == 0) {
+				i = i+2;
+			} else {
+				cout << i << " " << j << endl;
+				i = i+2;
+				k = k-1;
+			}
+		}
+	}
+}
+
+
+int main() {
+	int b;
+	bool y;
+	string a;
+	cin >> a >> b;
+	if (a == "p") {
+		y = isPrime(b);
+		if (y == 0) {
+			cout << "not prime" << endl;
+		} else {
+			cout << "prime" << endl;
+		}
+	} else if (a == "t") {
+		twinPrimes(b);
+	}
+	return 0;
+}
