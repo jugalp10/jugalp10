@@ -1,0 +1,17 @@
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
+using namespace std;
+
+int main() {
+    map<string, set<string>> mp ={"/" ,{} };
+    mp.insert({"fsdas" ,{"dsfsd"}});
+    for (auto itrmap =mp.begin(); itrmap != mp.end(); itrmap++){
+        cout << itrmap->first;
+        for ( auto  itrset = itrmap->second.begin(); itrset != itrmap->second.end(); itrset++ ) {
+            cout << *itrset << endl;
+        }
+    }
+    return 0;
+}
