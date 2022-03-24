@@ -1,0 +1,143 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <list>
+#include <unordered_map>
+#include "dijkstra.h"
+#include "digraph.h"
+#include "wdigraph.h"
+
+struct Point {
+	long long lon;
+	long long lat;
+};
+
+long long manhattan(const Point& pt1, const Point& pt2) {
+		return abs(pt1.lon -pt2.lon) + abs(pt1.lat - pt2.lat);
+}
+
+void readGraph(string filename, WDigraph& graph, unordered_map <int, Point>& points){
+	string line, slon, slat, sden, temp, spnt1, spnt2;
+	int track, ipnt1, ipnt2, iden, length;
+	double ilon, ilat;
+	long long lol;
+	Point coords;
+	ifstream in(filename, ios_base::in);
+	while(getline(in, line)) {
+		length=line.length();
+		track=0;
+		temp=line[0];
+		if (temp=="V"){
+			slon.clear();
+			slat.clear();
+			sden.clear();
+			for (int i = 2; i < length; i++){
+				temp=line[i];
+				if (temp==","){
+					track++;
+					continue;
+				}
+				if (track==1){
+					slon += line[i];
+				}
+				else if(track==2){
+					slat += line[i];
+				}
+				else{
+					sden += line[i];
+				}
+			}
+			ilon = stod(slon);
+			ilat = stod(slat);
+			iden = stoi(sden);
+			graph.addVertex(iden);
+			coords.lon = static_cast<long long>(ilon*100000);
+			coords.lat = static_cast<long long>(ilat*100000);
+			points.insert({iden, coords});
+			// cout << ilon << endl;
+			// cout << ilat << endl;
+			// cout << iden << endl;
+		}
+		else if (temp=="E"){
+			spnt1.clear();
+			spnt2.clear();
+			for (int i = 2; i < length; i++){
+				temp=line[i];
+				if (temp==","){
+					track++;
+					continue;
+				}
+				if ( track==2){
+					break;
+				}
+				else if (track==1){
+					spnt2 += line[i];
+				}
+				else{
+					spnt1 += line[i];
+				}
+			}
+			ipnt1 = stoi(spnt1);
+			ipnt2 = stoi(spnt2);
+			lol=manhattan(points.at(ipnt1),points.at(ipnt2));
+			graph.addEdge(ipnt1, ipnt2, lol);
+			// cout << ipnt1 << endl;
+			// cout << ipnt2 << endl;
+		}
+	}
+}
+
+int loc(Point pone, unordered_map<int, Point>& points) {
+	long long a, b = 100000000000000000000;
+	int close;
+	for (auto j = points.begin(); j != points.end(); j++){
+		a = manhattan(pone, j->second);
+		if (a < b) {
+			close = j->first;
+			b = a;
+		}
+	}
+	return close;
+}
+
+int main() {
+	int x, start, end, p1lon, p1lat, p2lon, p2lat, count = 1;
+	string let;
+	cin >> let >> p1lon >> p1lat >> p2lon >> p2lat;
+	unordered_map<int, Point> points;
+	WDigraph graph;
+	readGraph("edmonton-roads-2.0.1.txt", graph, points);
+	Point initial = {p1lon, p1lat};
+	Point final = {p2lon, p2lat};
+	start = loc(initial, points);
+	end = loc(final, points);
+
+	unordered_map<int, PIL> tree;
+	dijkstra(graph, start, tree);
+	list<int> direc;
+
+	if (tree.find(end) == tree.end()){
+		cout << "N 0" << endl;
+	}
+	else {
+		x = end;
+		while (x != start) {;
+		direc.push_front(x);
+		x=tree[x].first;
+		count++;
+		}
+	}
+	direc.push_front(start);
+	cout << "N " << count << endl;
+	for (auto y : direc) {
+		cin >> let;
+		if (let == "A") {
+			cout << "w " << points.at(y).lon << points.at(y).lat << endl;
+		}
+	}
+	cin >> let;
+	if (let == "A"){
+		cout << "E" << endl;
+	}
+	return 0;
+}
